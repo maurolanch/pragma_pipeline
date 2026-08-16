@@ -25,21 +25,3 @@ CREATE TABLE IF NOT EXISTS pipeline_stats (
     max_price   DECIMAL(10,2),
     updated_at  TIMESTAMP DEFAULT NOW()
 );
-
-
--- Initialize the pipeline state
-INSERT INTO pipeline_stats (
-    id,
-    row_count,
-    total_sum,
-    min_price,
-    max_price
-)
-VALUES (
-    1,
-    0,
-    0,
-    NULL,
-    NULL
-)
-ON CONFLICT (id) DO NOTHING;
