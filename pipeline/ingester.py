@@ -43,3 +43,5 @@ def load_csv_to_db(connection, file_path):
         len(df),
         file_path.name
     )
+
+    return df

@@ -29,3 +29,27 @@ def create_tables(connection):
         cursor.execute(sql)
 
     connection.commit()
+
+def is_batch_processed(connection, source_file):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT 1
+            FROM processed_batches
+            WHERE source_file = %s;
+            """,
+            (source_file,),
+        )
+
+        return cursor.fetchone() is not None
+
+
+def mark_batch_processed(connection, source_file):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            INSERT INTO processed_batches (source_file)
+            VALUES (%s);
+            """,
+            (source_file,),
+        )

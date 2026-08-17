@@ -23,5 +23,14 @@ CREATE TABLE IF NOT EXISTS pipeline_stats (
     total_sum   DECIMAL(15,2) NOT NULL,
     min_price   DECIMAL(10,2),
     max_price   DECIMAL(10,2),
+    avg_price   DECIMAL(15,4),
     updated_at  TIMESTAMP DEFAULT NOW()
+);
+
+-- Processed batches
+-- Guarantees that a closed CSV batch is processed only once
+
+CREATE TABLE IF NOT EXISTS processed_batches (
+    source_file VARCHAR(50) PRIMARY KEY,
+    processed_at TIMESTAMP DEFAULT NOW()
 );
