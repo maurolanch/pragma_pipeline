@@ -200,3 +200,29 @@ def get_current_stats(connection):
         "max_price": row[4],
         "avg_price": row[5],
     }
+
+def get_database_stats(connection):
+    """
+    Query the transactions table to verify the persisted data.
+    This is intentionally a full database query for validation purposes.
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT
+                COUNT(*) AS row_count,
+                AVG(price) AS avg_price,
+                MIN(price) AS min_price,
+                MAX(price) AS max_price
+            FROM transactions
+            """
+        )
+
+        row = cursor.fetchone()
+
+    return {
+        "row_count": row[0],
+        "avg_price": row[1],
+        "min_price": row[2],
+        "max_price": row[3],
+    }

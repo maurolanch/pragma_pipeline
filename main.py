@@ -3,7 +3,12 @@ from pathlib import Path
 from pipeline.logger import get_logger
 from pipeline.db import get_connection, create_tables, is_batch_processed, mark_batch_processed
 from pipeline.ingester import load_csv_to_db
-from pipeline.stats import calculate_batch_stats, update_stats, get_current_stats
+from pipeline.stats import (
+    calculate_batch_stats,
+    update_stats,
+    get_current_stats,
+    get_database_stats,
+)
 
 logger = get_logger(__name__)
 
@@ -94,6 +99,14 @@ def main():
                 "Validation completed: stats=%s",
                 current_stats
             )
+
+            database_stats = get_database_stats(connection)
+
+            logger.info(
+                "Database stats after validation: %s",
+                database_stats
+            )
+
 
         except Exception:
             connection.rollback()
