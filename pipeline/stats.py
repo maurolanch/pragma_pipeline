@@ -1,4 +1,3 @@
-import pandas as pd
 from decimal import Decimal
 
 def calculate_batch_stats(df):
@@ -170,4 +169,34 @@ def update_stats(connection, batch_stats):
         "min_price": accumulated_min,
         "max_price": accumulated_max,
         "avg_price": accumulated_avg,
+    }
+
+def get_current_stats(connection):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT
+                row_count,
+                price_count,
+                total_sum,
+                min_price,
+                max_price,
+                avg_price
+            FROM pipeline_stats
+            WHERE id = 1
+            """
+        )
+
+        row = cursor.fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "row_count": row[0],
+        "price_count": row[1],
+        "total_sum": row[2],
+        "min_price": row[3],
+        "max_price": row[4],
+        "avg_price": row[5],
     }
