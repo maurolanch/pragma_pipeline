@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 CREATE TABLE IF NOT EXISTS pipeline_stats (
     id          INTEGER PRIMARY KEY,
     row_count   BIGINT NOT NULL,
+    price_count BIGINT NOT NULL,
     total_sum   DECIMAL(15,2) NOT NULL,
     min_price   DECIMAL(10,2),
     max_price   DECIMAL(10,2),
